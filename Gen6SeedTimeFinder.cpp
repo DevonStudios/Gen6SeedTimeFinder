@@ -91,7 +91,7 @@ void time_difference() {
 
 int main() {
     char answer = 'y';
-    unsigned long long initial, new_initial, save_parameter, new_save_parameter, base_time, target, difference, rest;
+    unsigned long long initial, new_initial, save_parameter, new_save_parameter, base_time, target, difference;
     int frame, log_year, log_month, log_day, log_hour, log_minute, log_second;
     string input;
 
@@ -117,7 +117,7 @@ int main() {
         while (repeat_digit == true);
 
         do {
-            cout << "Insert your actual Initial Seed: ";
+            cout << "Insert your current Initial Seed: ";
             cin >> input;
             is_hex(input);
 
@@ -130,7 +130,7 @@ int main() {
         while (repeat_digit == true);
 
         do {
-            cout << "Insert your actual Save Parameter: ";
+            cout << "Insert your current Save Parameter: ";
             cin >> input;
             is_hex(input);
 
@@ -144,9 +144,9 @@ int main() {
 
         base_time = (initial - save_parameter) & 0xFFFFFFFF;
 
-        std::cout << "Base Time: " << std::hex << base_time << endl << endl;
+        std::cout << "Base Time: " << uppercase << std::hex << base_time << endl << endl;
 
-        cout << "(RTC + Frame calculation)" << endl;
+        cout << "(RTC calculation)" << endl;
 
         do {
             cout << "Insert your new Save Parameter: ";
@@ -177,7 +177,7 @@ int main() {
         while (repeat_digit == true);
 
         do {
-            cout << "Actual Citra RTC year: ";
+            cout << "Current Citra RTC year: ";
             cin >> input;
             is_dec(input);
 
@@ -198,7 +198,7 @@ int main() {
         }
 
         do {
-            cout << "Actual Citra RTC months: ";
+            cout << "Current Citra RTC months: ";
             cin >> input;
             is_dec(input);
 
@@ -212,7 +212,7 @@ int main() {
         while (repeat_digit == true || month < 1 || month > 12);
 
         do {
-            cout << "Actual Citra RTC days: ";
+            cout << "Current Citra RTC days: ";
             cin >> input;
             is_dec(input);
 
@@ -226,7 +226,7 @@ int main() {
         while (repeat_digit == true || day < 1 || day > months_days[month - 1]);
 
         do {
-            cout << "Actual Citra RTC hours: ";
+            cout << "Current Citra RTC hours: ";
             cin >> input;
             is_dec(input);
 
@@ -240,7 +240,7 @@ int main() {
         while (repeat_digit == true || hour < 0 || hour > 23);
 
         do {
-            cout << "Actual Citra RTC minutes: ";
+            cout << "Current Citra RTC minutes: ";
             cin >> input;
             is_dec(input);
 
@@ -254,7 +254,7 @@ int main() {
         while (repeat_digit == true || minute < 0 || minute > 59);
 
         do {
-            cout << "Actual Citra RTC seconds: ";
+            cout << "Current Citra RTC seconds: ";
             cin >> input;
             is_dec(input);
 
@@ -285,13 +285,9 @@ int main() {
         cout << endl;
 
         if (target > new_initial) {
-            rest = difference;
             cout << "+ ";
         }
         else {
-            rest = 1000 - difference;
-            time_difference();
-            time_modify();
             cout << "- ";
         }
 
@@ -302,29 +298,29 @@ int main() {
         std::cout << std::setfill('0') << std::setw(2) << hour << ":";
         std::cout << std::setfill('0') << std::setw(2) << minute << ":";
         std::cout << std::setfill('0') << std::setw(2) << second << endl << endl;
-        std::cout << std::dec << "Frame: " << frame + ((rest / 100) * 6) << endl << endl;
+        std::cout << std::dec << "Frame: " << frame << endl << endl;
 
         cout << "Write results in log file? Y/N: ";
         cin >> answer;
 
-        if (answer == 'y' || 'Y') {
+        if (answer == 'y' || answer == 'Y') {
             ofstream output;
             output.open("log.txt", std::ios::app);
 
             output << "(Base Time calculation)" << endl;
             output << "Insert your Frame: " << std::dec << frame << endl;
-            output << "Insert your actual Initial Seed: " << std::hex << initial << endl;
-            output << "Insert your actual Save Parameter: " << std::hex << save_parameter << endl;
-            output << "Base Time: " << std::hex << base_time << endl << endl;
+            output << "Insert your actual Initial Seed: " << uppercase << std::hex << initial << endl;
+            output << "Insert your actual Save Parameter: " << uppercase << std::hex << save_parameter << endl;
+            output << "Base Time: " << uppercase << std::hex << base_time << endl << endl;
             output << "(RTC + Frame calculation)" << endl;
-            output << "Insert your new Save Parameter: " << std::hex << new_save_parameter << endl;
-            output << "Insert your Target Seed: " << std::hex << target << endl;
-            output << "Actual Citra RTC year: " << std::dec << log_year << endl;
-            output << "Actual Citra RTC months: " << std::setfill('0') << std::setw(2) << log_month << endl;
-            output << "Actual Citra RTC days: " << std::setfill('0') << std::setw(2) << std::dec << log_day << endl;
-            output << "Actual Citra RTC hours: " << std::setfill('0') << std::setw(2) << std::dec << log_hour << endl;
-            output << "Actual Citra RTC minutes: " << std::setfill('0') << std::setw(2) << std::dec << log_minute << endl;
-            output << "Actual Citra RTC seconds: " << std::setfill('0') << std::setw(2) << std::dec << log_second << endl << endl;
+            output << "Insert your new Save Parameter: " << uppercase << std::hex << new_save_parameter << endl;
+            output << "Insert your Target Seed: " << uppercase << std::hex << target << endl;
+            output << "Current Citra RTC year: " << std::dec << log_year << endl;
+            output << "Current Citra RTC months: " << std::setfill('0') << std::setw(2) << log_month << endl;
+            output << "Current Citra RTC days: " << std::setfill('0') << std::setw(2) << std::dec << log_day << endl;
+            output << "Current Citra RTC hours: " << std::setfill('0') << std::setw(2) << std::dec << log_hour << endl;
+            output << "Current Citra RTC minutes: " << std::setfill('0') << std::setw(2) << std::dec << log_minute << endl;
+            output << "Current Citra RTC seconds: " << std::setfill('0') << std::setw(2) << std::dec << log_second << endl << endl;
 
             if (target > new_initial) {
                 output << "+ ";
@@ -340,7 +336,7 @@ int main() {
             output << std::setfill('0') << std::setw(2) << hour << ":";
             output << std::setfill('0') << std::setw(2) << minute << ":";
             output << std::setfill('0') << std::setw(2) << second << endl << endl;
-            output << std::dec << "Frame: " << frame + ((rest / 100) * 6) << endl << endl;
+            output << std::dec << "Frame: " << frame << endl << endl;
             output << "-----------------------------------------------" << endl << endl;
         }
 
